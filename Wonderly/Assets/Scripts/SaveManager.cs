@@ -18,6 +18,7 @@ public class SaveManager : MonoBehaviour {
 	public Text title;
 	public Text description;
 	public Text browserLink;
+	public Text titleDisplay;
 
 	public void CreateSaveFile()
 	{
@@ -34,6 +35,8 @@ public class SaveManager : MonoBehaviour {
 		//save the title and description of the experience
 		save.title = title.text;
 		save.description = description.text;
+
+		titleDisplay.text = title.text;
 
 		//save browser url link
 		save.browserLink = browserLink.text;
