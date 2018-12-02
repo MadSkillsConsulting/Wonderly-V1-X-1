@@ -47,6 +47,8 @@ namespace Sample
         public Text title;
         public Text editTitle;
         public Text description;
+
+        public InputField titleInput;
         private Dictionary<string, DynamicImageTagetBehaviour> imageTargetDic = new Dictionary<string, DynamicImageTagetBehaviour>();
         //public List<GameObject> targetList = new List<GameObject>();
 
@@ -159,6 +161,7 @@ namespace Sample
             title.text = "";
             editTitle.text = "";
             description.text = "";
+            titleInput.text = "";
 
             pathManager.targetCount = 0;
         }

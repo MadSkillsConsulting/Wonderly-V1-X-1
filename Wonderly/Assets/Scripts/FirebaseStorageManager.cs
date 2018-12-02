@@ -43,6 +43,8 @@ public class FirebaseStorageManager : MonoBehaviour {
 
 	public ExperienceCodeClass ecc;
 
+	public GameObject loadPanel;
+
 	private int whichIndex;
 
 	private string saveApiUrl = "https://aliceone-221018.appspot.com/_ah/api/aliceOne/v1/exp";
@@ -415,6 +417,7 @@ saveFileRef.GetBytesAsync(maxAllowedSize).ContinueWith((Task<byte[]> task1) => {
 			if (task1.IsFaulted || task1.IsCanceled) {
 				Debug.Log(task1.Exception.ToString());
 				wrongCodeNotification.SetActive(true);
+				loadPanel.SetActive(false);
 				// Uh-oh, an error occurred!
 			} else {
 				byte[] fileContents = task1.Result;
