@@ -270,8 +270,8 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public IEnumerator profileCreate () 
 	{
 		ProfileClass newProfile = new ProfileClass();
-		newProfile.firstName = firstName.text;
-		newProfile.lastName = lastName.text;
+		newProfile.firstName = PlayerPrefs.GetString("fName");
+		newProfile.lastName = PlayerPrefs.GetString("lName");
 
 		//convert profile clas instance into json string
 		string newProfJson = JsonUtility.ToJson(newProfile);
@@ -284,6 +284,8 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 			newProfileRequest.SetRequestHeader("Authorization", "Bearer " + fbm.token);
 
 			yield return newProfileRequest.SendWebRequest();
+
+			loadingPanel.SetActive(false);
 
 			Debug.Log(newProfileRequest.responseCode);
 		}

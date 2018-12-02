@@ -24,6 +24,8 @@ public class FirebaseManager : MonoBehaviour {
 	public FirebaseApp fbApp;
 	public Firebase.Storage.FirebaseStorage fbStorage;
 	public Firebase.Storage.StorageReference fbStorageRef;
+	public Text firstName;
+	public Text lastName;
 
 	public GameObject signInScreen;
 	public GameObject matchCurrentPasswordPanel;
@@ -80,8 +82,6 @@ public class FirebaseManager : MonoBehaviour {
 
 			// Firebase user has been created.
 			Firebase.Auth.FirebaseUser newUser = task.Result;
-			//turn off loading animation
-			loadingPanel.SetActive(false);
 			Debug.LogFormat("Firebase user created successfully: {0} ({1})",
 					newUser.DisplayName, newUser.UserId);
 
@@ -135,17 +135,18 @@ public class FirebaseManager : MonoBehaviour {
 					Firebase.Auth.FirebaseUser newUser = task.Result;
 					Debug.LogFormat("User signed in successfully: {0} ({1})",
 							newUser.DisplayName, newUser.UserId);
-					GetToken(auth);
+					GetTokenAfterNewUserCreation(auth);
 
 					Debug.Log("Logging in: " + e + " " + p);
 					PlayerPrefs.SetString("email", e);
 					PlayerPrefs.SetString("password", p);
 					PlayerPrefs.SetInt("isLoggedIn", 1);
+					PlayerPrefs.SetString("fName", firstName.text);
+					PlayerPrefs.SetString("lName", lastName.text);
+
 
 			});
-			yield return new WaitForSeconds(1);
-
-			ceam.startProfileCreate();
+			yield return null;
 
 	}
 
@@ -270,6 +271,40 @@ public class FirebaseManager : MonoBehaviour {
 					token = task.Result;
 					Debug.Log(token);
 					isLoggedIn = true;
+
+					profileIcon1.SetActive(false);
+					profileIcon2.SetActive(true);
+					libraryIcon1.SetActive(false);
+					libraryIcon2.SetActive(true);
+					createIcon1.SetActive(false);
+					createIcon2.SetActive(true);
+		});
+	}
+
+	public void GetTokenAfterNewUserCreation(FirebaseAuth auth)
+	{
+			FirebaseUser user = auth.CurrentUser;
+
+			user.TokenAsync(true).ContinueWith(task =>
+			{
+					if (task.IsCanceled)
+					{
+							Debug.LogError("TokenAsync was canceled.");
+							return;
+					}
+
+					if (task.IsFaulted)
+					{
+							Debug.LogError("TokenAsync encountered an error: " + task.Exception);
+							Debug.Log("Password or email incorrect");
+							wrongLoginNotification.SetActive(true);
+							return;
+					}
+
+					token = task.Result;
+					Debug.Log(token);
+					isLoggedIn = true;
+					ceam.startProfileCreate();
 
 					profileIcon1.SetActive(false);
 					profileIcon2.SetActive(true);
