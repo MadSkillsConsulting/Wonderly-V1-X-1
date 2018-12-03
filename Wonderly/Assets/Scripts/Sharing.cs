@@ -27,7 +27,7 @@ public class Sharing : MonoBehaviour
     //default case 'Anonymous user' should not appear unless broken
     private string fullName = "Anonymous user";
     public string linkToAndroidStore = "www.linkToAliceDownloadAndroid.com";
-    public string linkToAppleStore = "www.linkToAliceDownloadAndroid.com";
+    public string linkToAppleStore = "www.linkToAliceDownloadApple.com";
     public string defaultLink = "https://leapwithalice.io/";
     private string linkToStore = "https://leapwithalice.io/";
     
@@ -63,7 +63,7 @@ public class Sharing : MonoBehaviour
             experienceTitle = experienceTitleGO.GetComponent<Text>().text;
             linkToStore = DetermineLinkToStore();
             print("Congratulations! <b>" + fullName + "</b> has just sent you the code '<b>" + experienceCode + "</b>' for '<b>" + experienceTitle + "</b>', an experience within the Wonderly application."+ "\n" +"If you do not have the Wonderly application, download it here " + linkToStore);
-            new NativeShare().SetText("Congratulations! <b>" + fullName + "</b> has just sent you the code '<b>" + experienceCode + "</b>' for '<b>" + experienceTitle + "</b>' , an experience within the Wonderly application."+ "\n" +"If you do not have the Wonderly application, download it here " + linkToStore).Share();
+            new NativeShare().SetText("Congratulations! " + fullName + " has just sent you the code '" + experienceCode + "' for '" + experienceTitle + "' , an experience within the Wonderly application."+ "\n" +"If you do not have the Wonderly application, download it here " + linkToStore).Share();
     	}
 
 	}
