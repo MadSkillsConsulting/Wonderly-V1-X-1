@@ -66,8 +66,10 @@ public class FirebaseManager : MonoBehaviour {
 			return;
 		}
 
+		string lowerCaseEmail = newEmail.text.ToLower();
+
 		//create new firebase user
-		auth.CreateUserWithEmailAndPasswordAsync(newEmail.text, newPassword.text).ContinueWith(task => {
+		auth.CreateUserWithEmailAndPasswordAsync(lowerCaseEmail, newPassword.text).ContinueWith(task => {
 			if (task.IsCanceled) {
 				Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
 				return;
@@ -102,7 +104,7 @@ public class FirebaseManager : MonoBehaviour {
 	private IEnumerator InternalLoginProcess()
 	{
 			//login credentials
-			string e = newEmail.text;
+			string lowerCaseEmail = newEmail.text.ToLower();
 			string p = newPassword.text;
 			//this is used for automatically logging you in 
 			/*if (PlayerPrefs.GetString("email", "email") != "email" && PlayerPrefs.GetString("password", "password") != "password")
@@ -119,7 +121,7 @@ public class FirebaseManager : MonoBehaviour {
 			}*/
 			//firebase signin
 			FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-			auth.SignInWithEmailAndPasswordAsync(e, p).ContinueWith(task =>
+			auth.SignInWithEmailAndPasswordAsync(lowerCaseEmail, p).ContinueWith(task =>
 			{
 					if (task.IsCanceled)
 					{
@@ -137,8 +139,8 @@ public class FirebaseManager : MonoBehaviour {
 							newUser.DisplayName, newUser.UserId);
 					GetTokenAfterNewUserCreation(auth);
 
-					Debug.Log("Logging in: " + e + " " + p);
-					PlayerPrefs.SetString("email", e);
+					Debug.Log("Logging in: " + lowerCaseEmail + " " + p);
+					PlayerPrefs.SetString("email", lowerCaseEmail);
 					PlayerPrefs.SetString("password", p);
 					PlayerPrefs.SetInt("isLoggedIn", 1);
 					PlayerPrefs.SetString("fName", firstName.text);
@@ -195,8 +197,8 @@ public class FirebaseManager : MonoBehaviour {
 	public void StartLoginProcess()
 	{
 			//login credentials
-			string e = email.text;
 			string p = Password.text;
+			string lowerCaseEmail = email.text.ToLower();
 			//this is used for automatically logging you in 
 			/*if (PlayerPrefs.GetString("email", "email") != "email" && PlayerPrefs.GetString("password", "password") != "password")
 			{
@@ -212,9 +214,9 @@ public class FirebaseManager : MonoBehaviour {
 			}*/
 			//firebase signin
 			FirebaseAuth auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-			auth.SignInWithEmailAndPasswordAsync(e, p).ContinueWith(task =>
+			auth.SignInWithEmailAndPasswordAsync(lowerCaseEmail, p).ContinueWith(task =>
 			{
-					Debug.Log("Attempted logging in: " + e + " " + p);
+					Debug.Log("Attempted logging in: " + lowerCaseEmail + " " + p);
 					if (task.IsCanceled)
 					{
 							Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
@@ -240,8 +242,8 @@ public class FirebaseManager : MonoBehaviour {
 							newUser.DisplayName, newUser.UserId);
 					GetToken(auth);
 
-					Debug.Log("Logging in: " + e + " " + p);
-					PlayerPrefs.SetString("email", e);
+					Debug.Log("Logging in: " + lowerCaseEmail + " " + p);
+					PlayerPrefs.SetString("email", lowerCaseEmail);
 					PlayerPrefs.SetString("password", p);
 					PlayerPrefs.SetInt("isLoggedIn", 1);
 			});

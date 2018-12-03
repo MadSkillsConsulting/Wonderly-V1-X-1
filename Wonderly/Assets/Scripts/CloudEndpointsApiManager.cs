@@ -334,7 +334,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	public IEnumerator emailCheck() 
 	{
 		checkEmailClass emailCheck = new checkEmailClass();
-		emailCheck.email = email.text;
+		emailCheck.email = email.text.ToLower();
 
 		//convert profile clas instance into json string
 		string emailCheckJson = JsonUtility.ToJson(emailCheck);
