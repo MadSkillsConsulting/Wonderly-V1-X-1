@@ -43,7 +43,7 @@ public class LoadManager : MonoBehaviour {
 
 	public GameObject loadingPanel;
 
-	public Text titleDisplay;
+	public InputField titleDisplay;
 	public Text descriptionDisplay;
 
 	public GameObject targetSetter;

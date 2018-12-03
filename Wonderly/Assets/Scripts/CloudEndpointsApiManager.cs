@@ -729,7 +729,7 @@ public class CloudEndpointsApiManager : MonoBehaviour {
 	private IEnumerator experienceEdit() 
 	{
 		editExperienceClass editExperience = new editExperienceClass();
-		editExperience.title = sm.title.text;
+		editExperience.title = sm.editTitle.text;
 		editExperience.code = code;
 		if (sm.browserLink.text == "")
 			editExperience.weblink = false;

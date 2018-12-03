@@ -16,6 +16,7 @@ public class SaveManager : MonoBehaviour {
 	public LoadManager lm;
 
 	public Text title;
+	public Text editTitle;
 	public Text description;
 	public Text browserLink;
 	public Text titleDisplay;
@@ -288,8 +289,10 @@ public class SaveManager : MonoBehaviour {
 		save.targetStatus = fm.targetStatus;
 
 		//save the title and description of the experience
-		save.title = title.text;
+		save.title = editTitle.text;
 		save.description = description.text;
+
+		titleDisplay.text = editTitle.text;
 
 		//save browser url link
 		save.browserLink = browserLink.text;
