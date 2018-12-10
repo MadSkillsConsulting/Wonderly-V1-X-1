@@ -44,6 +44,9 @@ namespace Sample
         public bool activeTarget3;
         public bool activeTarget4;
         public bool activeTarget5;
+         //keeps track of whether the previously set target to rotate/scale is still active
+        public int currentRotateScaleTarget = 0;
+        bool isCurrentTargetStillActive = false;
         public Text title;
         public Text editTitle;
         public Text description;
@@ -52,9 +55,63 @@ namespace Sample
         private Dictionary<string, DynamicImageTagetBehaviour> imageTargetDic = new Dictionary<string, DynamicImageTagetBehaviour>();
         //public List<GameObject> targetList = new List<GameObject>();
 
-        void Start()
+        //sets the current object to rotate or scale, ensures that no other object will be set until the current one is deactivated
+        void Update()
         {
-           
+
+            //sets the currentTargetStillActive variable to the previously set target's active status
+            switch(currentRotateScaleTarget)
+            {
+                //if no target was set, force function to execute logic to check targets by setting to false
+                case 0:
+                    isCurrentTargetStillActive = false;
+                    break;
+                case 1:
+                    isCurrentTargetStillActive = activeTarget1;
+                    break;
+                case 2:
+                    isCurrentTargetStillActive = activeTarget2;
+                    break;
+                case 3:
+                    isCurrentTargetStillActive = activeTarget3;
+                    break;
+                case 4:
+                    isCurrentTargetStillActive = activeTarget4;
+                    break;
+                case 5:
+                    isCurrentTargetStillActive = activeTarget5;
+                    break;
+            }
+
+            //this if statement ensures that the logic for changing targets only executes if the current set target gets deactivated
+           if (isCurrentTargetStillActive == false)
+           {
+               if (activeTarget1 == true)
+               {
+                   currentRotateScaleTarget = 1;
+               }
+               else if (activeTarget2 == true)
+               {
+                   currentRotateScaleTarget = 2;
+               }
+               else if (activeTarget3 == true)
+               {
+                   currentRotateScaleTarget = 3;
+               }
+               else if (activeTarget4 == true)
+               {
+                   currentRotateScaleTarget = 4;
+               }
+               else if (activeTarget5 == true)
+               {
+                   currentRotateScaleTarget = 5;
+               }
+               //if no targets are active, set to 0 so that function will execute target activity checking logic upon next call
+               else
+               {
+                   currentRotateScaleTarget = 0;
+               }
+           }
         }
 
        

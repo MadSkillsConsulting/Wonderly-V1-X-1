@@ -55,7 +55,7 @@ public class YoutubeVideoUi : MonoBehaviour {
                     Debug.Log(videoId);
                     tom.videoPlayer2.GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
                     tom.videoPlayer2.GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
-                    tom.videoPlayer1.transform.position = new Vector3(0f, 0f, 0f);
+                    tom.videoPlayer2.transform.position = new Vector3(0f, 0f, 0f);
                     break;
                 case 3:
                     if (fm.targetStatus[2] == "none")
@@ -68,7 +68,7 @@ public class YoutubeVideoUi : MonoBehaviour {
                     Debug.Log(videoId);
                     tom.videoPlayer3.GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
                     tom.videoPlayer3.GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
-                    tom.videoPlayer1.transform.position = new Vector3(0f, 0f, 0f);
+                    tom.videoPlayer3.transform.position = new Vector3(0f, 0f, 0f);
                     break;
                 case 4:
                     if (fm.targetStatus[3] == "none")
@@ -81,7 +81,7 @@ public class YoutubeVideoUi : MonoBehaviour {
                     Debug.Log(videoId);
                     tom.videoPlayer4.GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
                     tom.videoPlayer4.GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
-                    tom.videoPlayer1.transform.position = new Vector3(0f, 0f, 0f);
+                    tom.videoPlayer4.transform.position = new Vector3(0f, 0f, 0f);
                     break;
                 case 5:
                     if (fm.targetStatus[4] == "none")
@@ -94,7 +94,7 @@ public class YoutubeVideoUi : MonoBehaviour {
                     Debug.Log(videoId);
                     tom.videoPlayer5.GetComponent<SimplePlayback>().PlayYoutubeVideo(videoId);
                     tom.videoPlayer5.GetComponent<SimplePlayback>().unityVideoPlayer.loopPointReached += VideoFinished;
-                    tom.videoPlayer1.transform.position = new Vector3(0f, 0f, 0f);
+                    tom.videoPlayer5.transform.position = new Vector3(0f, 0f, 0f);
                     break;
 
 

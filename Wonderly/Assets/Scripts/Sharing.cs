@@ -26,8 +26,8 @@ public class Sharing : MonoBehaviour
 
     //default case 'Anonymous user' should not appear unless broken
     private string fullName = "Anonymous user";
-    public string linkToAndroidStore = "www.linkToAliceDownloadAndroid.com";
-    public string linkToAppleStore = "www.linkToAliceDownloadApple.com";
+    public string linkToAndroidStore = "https://play.google.com/store/apps/details?id=com.lwa.wonderly&hl=en_US";
+    public string linkToAppleStore = "https://itunes.apple.com/us/app/wonderly/id1441642014?ls=1&mt=8";
     public string defaultLink = "https://leapwithalice.io/";
     private string linkToStore = "https://leapwithalice.io/";
     

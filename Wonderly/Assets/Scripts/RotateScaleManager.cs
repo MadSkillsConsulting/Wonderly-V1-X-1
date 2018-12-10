@@ -8,19 +8,21 @@ public class RotateScaleManager : MonoBehaviour {
 
 	public targetObjectManager tom;
 	public FilesManager fm;
+	public ImageTargetManager itm;
 	public Slider scaleSlider;
+	public Slider scaleSliderView;
 
 	public void rotateX()
 	{
 		//determine what target is being viewed
-		switch(fm.currentTarget)
+		switch(itm.currentRotateScaleTarget)
 		{
 			//do nothing if there is no target
 			case 0:
 				return;
 			case 1:
 				//determine what is on the target
-				switch(fm.targetStatus[fm.currentTarget-1])
+				switch(fm.targetStatus[itm.currentRotateScaleTarget-1])
 				{
 					//do nothing if there is no target object
 					case "none":
@@ -39,7 +41,7 @@ public class RotateScaleManager : MonoBehaviour {
 				}
 				break;
 			case 2:
-				switch(fm.targetStatus[fm.currentTarget-1])
+				switch(fm.targetStatus[itm.currentRotateScaleTarget-1])
 				{
 					//do nothing if there is no target object
 					case "none":
@@ -58,7 +60,7 @@ public class RotateScaleManager : MonoBehaviour {
 				}
 				break;
 			case 3:
-				switch(fm.targetStatus[fm.currentTarget-1])
+				switch(fm.targetStatus[itm.currentRotateScaleTarget-1])
 				{
 					//do nothing if there is no target object
 					case "none":
@@ -77,7 +79,7 @@ public class RotateScaleManager : MonoBehaviour {
 				}
 				break;
 			case 4:
-				switch(fm.targetStatus[fm.currentTarget-1])
+				switch(fm.targetStatus[itm.currentRotateScaleTarget-1])
 				{
 					//do nothing if there is no target object
 					case "none":
@@ -96,7 +98,7 @@ public class RotateScaleManager : MonoBehaviour {
 				}
 				break;
 			case 5:
-				switch(fm.targetStatus[fm.currentTarget-1])
+				switch(fm.targetStatus[itm.currentRotateScaleTarget-1])
 				{
 					//do nothing if there is no target object
 					case "none":
@@ -121,14 +123,14 @@ public class RotateScaleManager : MonoBehaviour {
 	public void rotateY()
 	{
 		//determine what target is being viewed
-		switch(fm.currentTarget)
+		switch(itm.currentRotateScaleTarget)
 		{
 			//do nothing if there is no target
 			case 0:
 				return;
 			case 1:
 				//determine what is on the target
-				switch(fm.targetStatus[fm.currentTarget-1])
+				switch(fm.targetStatus[itm.currentRotateScaleTarget-1])
 				{
 					//do nothing if there is no target object
 					case "none":
@@ -141,7 +143,7 @@ public class RotateScaleManager : MonoBehaviour {
 				}
 				break;
 			case 2:
-				switch(fm.targetStatus[fm.currentTarget-1])
+				switch(fm.targetStatus[itm.currentRotateScaleTarget-1])
 				{
 					//do nothing if there is no target object
 					case "none":
@@ -154,7 +156,7 @@ public class RotateScaleManager : MonoBehaviour {
 				}
 				break;
 			case 3:
-				switch(fm.targetStatus[fm.currentTarget-1])
+				switch(fm.targetStatus[itm.currentRotateScaleTarget-1])
 				{
 					//do nothing if there is no target object
 					case "none":
@@ -167,7 +169,7 @@ public class RotateScaleManager : MonoBehaviour {
 				}
 				break;
 			case 4:
-				switch(fm.targetStatus[fm.currentTarget-1])
+				switch(fm.targetStatus[itm.currentRotateScaleTarget-1])
 				{
 					//do nothing if there is no target object
 					case "none":
@@ -180,7 +182,7 @@ public class RotateScaleManager : MonoBehaviour {
 				}
 				break;
 			case 5:
-				switch(fm.targetStatus[fm.currentTarget-1])
+				switch(fm.targetStatus[itm.currentRotateScaleTarget-1])
 				{
 					//do nothing if there is no target object
 					case "none":
@@ -197,7 +199,7 @@ public class RotateScaleManager : MonoBehaviour {
 
 	public void scaleTargetObject()
 	{
-		switch(fm.currentTarget)
+		switch(itm.currentRotateScaleTarget)
 		{
 			//do nothing if there is no target
 			case 0:
@@ -299,14 +301,109 @@ public class RotateScaleManager : MonoBehaviour {
 		}
 	}
 
+	public void scaleTargetObjectView()
+	{
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+		Debug.Log("scale target object view called");
+		switch(itm.currentRotateScaleTarget)
+		{
+			//do nothing if there is no target
+			case 0:
+				return;
+			case 1:
+				//determine what is on the target
+				switch(fm.targetStatus[0])
+				{
+					//do nothing if there is no target object
+					case "none":
+						return;
+					case "created":
+						return;
+					case "model":
+						tom.model1.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+					case "video":
+						tom.videoPlayer1.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+					case "image":
+						tom.image1.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+				}
+				break;
+			case 2:
+				switch(fm.targetStatus[1])
+				{
+					//do nothing if there is no target object
+					case "none":
+						return;
+					case "created":
+						return;
+					case "model":
+						tom.model2.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+					case "video":
+						tom.videoPlayer2.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+					case "image":
+						tom.image2.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+				}
+				break;
+			case 3:
+				switch(fm.targetStatus[2])
+				{
+					case "none":
+						return;
+					case "created":
+						return;
+					case "model":
+						tom.model3.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+					case "video":
+						tom.videoPlayer3.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+					case "image":
+						tom.image3.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+				}
+				break;
+			case 4:
+				switch(fm.targetStatus[3])
+				{
+					//do nothing if there is no target object
+					case "none":
+						return;
+					case "created":
+						return;
+					case "model":
+						tom.model4.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+					case "video":
+						tom.videoPlayer4.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+					case "image":
+						tom.image4.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+				}
+				break;
+			case 5:
+				switch(fm.targetStatus[4])
+				{
+					case "none":
+						return;
+					case "created":
+						return;
+					case "model":
+						tom.model5.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+					case "video":
+						tom.videoPlayer5.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+					case "image":
+						tom.image5.transform.localScale = new Vector3(scaleSliderView.value, scaleSliderView.value, scaleSliderView.value);
+						break;
+				}
+				break;
+		}
 	}
 }

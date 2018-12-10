@@ -25,8 +25,9 @@ namespace Sample
         public string MarksDirectory;
         public string SaveDirectory;
         private bool isWriting;
-        //private takeTargetPicture ui;
-        public int TARGET_LIMIT = 5;
+        //This app will work with 1 - 5 targets (you just need to modify the target review UI in edit and view screens).
+        //Set a valid limit below (less targets = better performance).
+        public int TARGET_LIMIT = 3;
         public int targetCount = 0;
         public int currentTarget =0;
         //will hold whether each target has image, video, model, is "created" , or "none"

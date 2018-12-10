@@ -11,6 +11,8 @@ public class UiManager : MonoBehaviour {
 	public SaveManager sm;
 	public ArPairDisplayManager apdm;
 	public ModelInitializer mi;
+	public ImageTargetManager itm;
+	public LoadManager lm;
 
 	public int currentTargetNum;
 
@@ -68,9 +70,18 @@ public class UiManager : MonoBehaviour {
 	public Text chosenVideoText;
 	public Text chosenImageText;
 
-	//public GameObject rotateButton1;
-	//public Text rotateButton1Text;
-	//public GameObject rotateButton2;
+	public GameObject rotatePanelEdit;
+	public GameObject rotatePanelView;
+	public GameObject upRotateButtonEdit;
+	public GameObject upRotateButtonView;
+
+	//for view screen preview targets UI
+	public GameObject filledIn1;
+	public GameObject filledIn2;
+	public GameObject filledIn3;
+	public GameObject filledIn4;
+	public GameObject filledIn5;
+	public int previewIndex;
 
 	public Text description;
 
@@ -103,7 +114,7 @@ public class UiManager : MonoBehaviour {
 	
 	// handles what UI will be displayed based on the 1 model/video/pic per target rule
 	void Update () {
-
+		Debug.Log("1 ui update running");
 		if (fm.currentTarget == 0)
 		{
 			videoHighlight.gameObject.SetActive(false);
@@ -417,6 +428,48 @@ public class UiManager : MonoBehaviour {
 				chosenObjectDisplay.transform.GetChild(3).gameObject.SetActive(false);
 				break;
 		}
+		Debug.Log("2 ui update running");
+
+		//if no target active, deactivate rotate/scale panels and return to avoid array out of index error
+		if (itm.currentRotateScaleTarget < 1)
+		{
+				rotatePanelEdit.SetActive(false);
+				rotatePanelView.SetActive(false);
+				return;
+		}
+
+		//ensure that rotate/scale panels display only when target active, and only display buttons that appy to that target type
+		switch(fm.targetStatus[itm.currentRotateScaleTarget-1])
+		{
+			case "none":
+				rotatePanelEdit.SetActive(false);
+				rotatePanelView.SetActive(false);
+				break;
+			case "created":
+				rotatePanelEdit.SetActive(false);
+				rotatePanelView.SetActive(false);
+				break;
+			case "model":
+				rotatePanelEdit.SetActive(true);
+				rotatePanelView.SetActive(true);
+				upRotateButtonEdit.SetActive(true);
+				upRotateButtonView.SetActive(true);
+				break;
+			case "video":
+				rotatePanelEdit.SetActive(true);
+				rotatePanelView.SetActive(true);
+				upRotateButtonEdit.SetActive(false);
+				upRotateButtonView.SetActive(false);
+				break;
+			case "image":
+				rotatePanelEdit.SetActive(true);
+				rotatePanelView.SetActive(true);
+				upRotateButtonEdit.SetActive(false);
+				upRotateButtonView.SetActive(false);
+				break;
+		}
+
+		Debug.Log("3 ui update running");
 
 	}
 
@@ -481,5 +534,96 @@ public class UiManager : MonoBehaviour {
 		apdm.img17.sprite = apdm.blankImage.sprite;
 		apdm.img18.sprite = apdm.blankImage.sprite;
 	}
+
+		//the following 2 functions control the UI to preview the target images in the "view" screen
+	public void nextPreview()
+	{
+		//change this value (1-5) depending on how many targets you want to allow per Journey
+		if (previewIndex == 2)
+			return;
+
+		switch(previewIndex)
+		{
+			case 0:
+				lm.preview1.gameObject.SetActive(false);
+				filledIn1.SetActive(false);
+				lm.preview2.gameObject.SetActive(true);
+				filledIn2.SetActive(true);
+				break;
+			case 1:
+				lm.preview2.gameObject.SetActive(false);
+				filledIn2.SetActive(false);
+				lm.preview3.gameObject.SetActive(true);
+				filledIn3.SetActive(true);
+				break;
+			case 2:
+				lm.preview3.gameObject.SetActive(false);
+				filledIn3.SetActive(false);
+				lm.preview4.gameObject.SetActive(true);
+				filledIn4.SetActive(true);
+				break;
+			case 3:
+				lm.preview4.gameObject.SetActive(false);
+				filledIn4.SetActive(false);
+				lm.preview5.gameObject.SetActive(true);
+				filledIn5.SetActive(true);
+				break;
+		}
+		previewIndex++;
+	}
+
+		public void prevPreview()
+	{
+
+		switch(previewIndex)
+		{
+			case 0:
+				return;
+			case 1:
+				lm.preview2.gameObject.SetActive(false);
+				filledIn2.SetActive(false);
+				lm.preview1.gameObject.SetActive(true);
+				filledIn1.SetActive(true);
+				break;
+			case 2:
+				lm.preview3.gameObject.SetActive(false);
+				filledIn3.SetActive(false);
+				lm.preview2.gameObject.SetActive(true);
+				filledIn2.SetActive(true);
+				break;
+			case 3:
+				lm.preview4.gameObject.SetActive(false);
+				filledIn4.SetActive(false);
+				lm.preview3.gameObject.SetActive(true);
+				filledIn3.SetActive(true);
+				break;
+			case 4:
+				lm.preview5.gameObject.SetActive(false);
+				filledIn5.SetActive(false);
+				lm.preview4.gameObject.SetActive(true);
+				filledIn4.SetActive(true);
+				break;
+		}
+		previewIndex--;
+
+	}
+
+	public void zeroPreviewIndex()
+	{
+		previewIndex = 0;
+
+		filledIn1.SetActive(true);
+		filledIn2.SetActive(false);
+		filledIn3.SetActive(false);
+		filledIn4.SetActive(false);
+		filledIn5.SetActive(false);
+		lm.preview1.gameObject.SetActive(true);
+		lm.preview2.gameObject.SetActive(false);
+		lm.preview3.gameObject.SetActive(false);
+		lm.preview4.gameObject.SetActive(false);
+		lm.preview5.gameObject.SetActive(false);
+	}
+
+
 }
 

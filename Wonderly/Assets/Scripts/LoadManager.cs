@@ -15,25 +15,9 @@ public class LoadManager : MonoBehaviour {
 	public targetObjectManager tom; 
 	public ImageTargetManager itm;
 	public pixabayManager pm;
-	public UnityEngine.UI.Image preview1;
-	public UnityEngine.UI.Image preview2;
-	public UnityEngine.UI.Image preview3;
-	public UnityEngine.UI.Image preview4;
-	public UnityEngine.UI.Image preview5;
+	public UiManager um;
 
 	public Text viewTitle;
-
-	public GameObject filledIn1;
-	public GameObject filledIn2;
-	public GameObject filledIn3;
-	public GameObject filledIn4;
-	public GameObject filledIn5;
-
-	public GameObject unfilled1;
-	public GameObject unfilled2;
-	public GameObject unfilled3;
-	public GameObject unfilled4;
-	public GameObject unfilled5;
 
 	public UnityEngine.UI.Image thumb1;
 	public UnityEngine.UI.Image thumb2;
@@ -41,14 +25,19 @@ public class LoadManager : MonoBehaviour {
 	public UnityEngine.UI.Image thumb4;
 	public UnityEngine.UI.Image thumb5;
 
+	//for view screen preview target UI
+	public UnityEngine.UI.Image preview1;
+	public UnityEngine.UI.Image preview2;
+	public UnityEngine.UI.Image preview3;
+	public UnityEngine.UI.Image preview4;
+	public UnityEngine.UI.Image preview5;
+
 	public GameObject loadingPanel;
 
 	public InputField titleDisplay;
 	public Text descriptionDisplay;
 
 	public GameObject targetSetter;
-
-	public int previewIndex;
 
 	public PolyAsset[] allAssets = new PolyAsset[5];
 
@@ -68,7 +57,7 @@ public class LoadManager : MonoBehaviour {
 	//Main function in this file that calls other helper functions 
 	public void LoadFile() {
 
-		previewIndex = 0;
+		um.previewIndex = 0;
 		targetSetter.SetActive(false);
 
 		//for debugging iOS load issue
@@ -298,6 +287,9 @@ public class LoadManager : MonoBehaviour {
 		//call function to imported all loaded AR objects (pics/videos/models)
 		StartCoroutine("ImportLoadedItems");
 		targetSetter.SetActive(true);
+
+		//set current target to valid index so that rotate/scale panel will show up (controlled by UiManager.Update())
+		fm.currentTarget = 1;
 	}
 
 	//imports all AR objects from save directory
@@ -389,6 +381,7 @@ public class LoadManager : MonoBehaviour {
 			}
 		}
 		loadingPanel.SetActive(false);
+
 	}
 
 
@@ -466,7 +459,7 @@ public class LoadManager : MonoBehaviour {
 		// We want to rescale the imported meshes to a specific size.
 		options.rescalingMode = PolyImportOptions.RescalingMode.FIT;
 		// The specific size we want assets rescaled to (fit in a 1x1x1 box):
-		options.desiredSize = 1.0f;
+		options.desiredSize = 2.0f;
 		// We want the imported assets to be recentered such that their centroid coincides with the origin:
 		options.recenter = true;
 		PolyApi.Import(result.Value, options, GetModelCallback);
@@ -486,7 +479,7 @@ public class LoadManager : MonoBehaviour {
 				case 0:
 					GameObject model1 = result.Value.gameObject;
 					Transform transform1 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform1.position = new Vector3(0.0f, 0.75f, 0f);
+					transform1.position = new Vector3(0.0f, 0.65f, 0f);
 					transform1.tag = "importedModel1";
 					transform1.parent = itm.target1.transform;
 					fm.targetStatus[0] = "model";
@@ -496,7 +489,7 @@ public class LoadManager : MonoBehaviour {
 				case 1:
 					GameObject model2 = result.Value.gameObject;
 					Transform transform2 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform2.position = new Vector3(0.0f, 0.75f, 0f);
+					transform2.position = new Vector3(0.0f, 0.65f, 0f);
 					transform2.tag = "importedModel2";
 					transform2.parent = itm.target2.transform;
 					fm.targetStatus[1] = "model";
@@ -506,7 +499,7 @@ public class LoadManager : MonoBehaviour {
 				case 2:
 					GameObject model3 = result.Value.gameObject;
 					Transform transform3 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform3.position = new Vector3(0.0f, 0.75f, 0f);
+					transform3.position = new Vector3(0.0f, 0.65f, 0f);
 					transform3.tag = "importedModel3";
 					transform3.parent = itm.target3.transform;
 					fm.targetStatus[2] = "model";
@@ -516,7 +509,7 @@ public class LoadManager : MonoBehaviour {
 				case 3:
 					GameObject model4 = result.Value.gameObject;
 					Transform transform4 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform4.position = new Vector3(0.0f, 0.75f, 0f);
+					transform4.position = new Vector3(0.0f, 0.65f, 0f);
 					transform4.tag = "importedModel4";
 					transform4.parent = itm.target4.transform;
 					fm.targetStatus[3] = "model";
@@ -526,7 +519,7 @@ public class LoadManager : MonoBehaviour {
 				case 4:
 					GameObject model5 = result.Value.gameObject;
 					Transform transform5 = result.Value.gameObject.GetComponent(typeof(Transform)) as Transform;
-					transform5.position = new Vector3(0.0f, 0.75f, 0f);
+					transform5.position = new Vector3(0.0f, 0.65f, 0f);
 					transform5.tag = "importedModel5";
 					transform5.parent = itm.target5.transform;
 					fm.targetStatus[4] = "model";
@@ -663,138 +656,6 @@ public class LoadManager : MonoBehaviour {
 				}
 				break;
 		}
-	}
-
-
-
-	//the following 2 functions control the UI to preview the target images in the "view" screen
-	public void nextPreview()
-	{
-		if (previewIndex == 4)
-			return;
-
-		switch(previewIndex)
-		{
-			case 0:
-				preview1.gameObject.SetActive(false);
-				filledIn1.SetActive(false);
-				unfilled1.SetActive(true);
-				break;
-			case 1:
-				preview2.gameObject.SetActive(false);
-				filledIn2.SetActive(false);
-				unfilled2.SetActive(true);
-				break;
-			case 2:
-				preview3.gameObject.SetActive(false);
-				filledIn3.SetActive(false);
-				unfilled3.SetActive(true);
-				break;
-			case 3:
-				preview4.gameObject.SetActive(false);
-				filledIn4.SetActive(false);
-				unfilled4.SetActive(true);
-				break;
-			case 4:
-				preview5.gameObject.SetActive(false);
-				filledIn5.SetActive(false);
-				unfilled5.SetActive(true);
-				break;
-		}
-		previewIndex++;
-		switch(previewIndex)
-		{
-			case 0:
-				preview1.gameObject.SetActive(true);
-				filledIn1.SetActive(true);
-				unfilled1.SetActive(false);
-				break;
-			case 1:
-				preview2.gameObject.SetActive(true);
-				filledIn2.SetActive(true);
-				unfilled2.SetActive(false);
-				break;
-			case 2:
-				preview3.gameObject.SetActive(true);
-				filledIn3.SetActive(true);
-				unfilled3.SetActive(false);
-				break;
-			case 3:
-				preview4.gameObject.SetActive(true);
-				filledIn4.SetActive(true);
-				unfilled4.SetActive(false);
-				break;
-			case 4:
-				preview5.gameObject.SetActive(true);
-				filledIn5.SetActive(true);
-				unfilled5.SetActive(false);
-				break;
-		}
-	}
-
-		public void prevPreview()
-	{
-		if (previewIndex == 0)
-			return;
-
-		switch(previewIndex)
-		{
-			case 0:
-				preview1.gameObject.SetActive(false);
-				filledIn1.SetActive(false);
-				unfilled1.SetActive(true);
-				break;
-			case 1:
-				preview2.gameObject.SetActive(false);
-				filledIn2.SetActive(false);
-				unfilled2.SetActive(true);
-				break;
-			case 2:
-				preview3.gameObject.SetActive(false);
-				filledIn3.SetActive(false);
-				unfilled3.SetActive(true);
-				break;
-			case 3:
-				preview4.gameObject.SetActive(false);
-				filledIn4.SetActive(false);
-				unfilled4.SetActive(true);
-				break;
-			case 4:
-				preview5.gameObject.SetActive(false);
-				filledIn5.SetActive(false);
-				unfilled5.SetActive(true);
-				break;
-		}
-		previewIndex--;
-		switch(previewIndex)
-		{
-			case 0:
-				preview1.gameObject.SetActive(true);
-				filledIn1.SetActive(true);
-				unfilled1.SetActive(false);
-				break;
-			case 1:
-				preview2.gameObject.SetActive(true);
-				filledIn2.SetActive(true);
-				unfilled2.SetActive(false);
-				break;
-			case 2:
-				preview3.gameObject.SetActive(true);
-				filledIn3.SetActive(true);
-				unfilled3.SetActive(false);
-				break;
-			case 3:
-				preview4.gameObject.SetActive(true);
-				filledIn4.SetActive(true);
-				unfilled4.SetActive(false);
-				break;
-			case 4:
-				preview5.gameObject.SetActive(true);
-				filledIn5.SetActive(true);
-				unfilled5.SetActive(false);
-				break;
-		}
-
 	}
 
 
