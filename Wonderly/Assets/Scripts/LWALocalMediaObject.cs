@@ -158,7 +158,7 @@ public class LWALocalMediaObject : MonoBehaviour
         {
             return path;
         }
-//  read only property
+//  read only property, no setter
 //        set
 //        {
 //            path = value;
@@ -184,7 +184,7 @@ public class LWALocalMediaObject : MonoBehaviour
         {
             return extension;
         }
-//  read only property
+//  read only property, no setter
 //        set
 //        {
 //            extension = value;
