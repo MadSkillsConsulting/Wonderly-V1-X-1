@@ -17,7 +17,7 @@
 //
 //  Usage
 //
-//      Primary FUnctionality Methods:
+//      Primary Functionality Methods:
 //
 //          LWALocalMediaObject.TakePicture();
 //
