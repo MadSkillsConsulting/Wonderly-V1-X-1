@@ -35,7 +35,10 @@ public class LWALocalMediaObject : MonoBehaviour
     //
     //  Usage:
     //
-    //      basename = LWALocalMediaObject.
+    //      basename = LWALocalMediaObject.TargetObjectBaseName;
+    //
+    //      LWALocalMediaObject.TargetObjectBaseName = "new-base-name";
+    //
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
     private string targetObjectBaseNameDefault = "target-object";
