@@ -1,12 +1,55 @@
 ﻿/////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
-//  Module: LWALocalMediaObjects.cs
+//  Start: LWALocalMediaObject.cs
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+//  Class: LWALocalMediaObject
 //  Written By: Mad Skills Consulting LLC
 //  Date: 2018-12-18 - Dev Michael - First checkin
 //  Date: 2019-01-21 - Dev Michael - Added Class Properties
 //  Date: 2019-01-22 - Maia Monet - Added Co-Developer
+//  Date: 2019-01-22 - Dev Michael - Added Usage Comments
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
+//
+//  Usage
+//
+//      Primary FUnctionality Methods:
+//
+//          LWALocalMediaObject.TakePicture();
+//
+//          LWALocalMediaObject.RecordVideo();
+//
+//          LWALocalMediaObject.GetImageFromGallery();
+//
+//          LWALocalMediaObject.GetVideoFromGallery();
+//
+//      Proprties:
+//
+//          Path - Full path to media file after success (READ ONLY)
+//              Usage:
+//                  mediaPath = LWALocalMediaObject.Path;
+//
+//          BaseName - Base name of media file, (+extension = filename)
+//              Usage:
+//                  baseName = LWALocalMediaObject.BaseName;
+//                  LWALocalMediaObject.BaseName = "new-base-name";
+//
+//          Directory - Path to directory, in which to place media files
+//              Usage:
+//                  directory = LWALocalMediaObject.Directory;
+//                  LWALocalMediaObject.Directory = "/new/path/to/directory";
+//
+//          Extension - Media file name extension, indicates type (READ ONLY)
+//              Usage:
+//                  extension = LWALocalMediaObject.Extension;
+//
+/////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEditor;
@@ -14,12 +57,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sample;
+using NativeCamera;
+using NativeGallery;
+
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
 public class LWALocalMediaObject : MonoBehaviour
 {
+    private string baseNameDefault = "target-object";
+    private string directoryDefault = fm.MarksDirectory;
+
     private static int maxSize = 512;       // Maximum image pixels on iOS
     private static string GetImageTitle = "Select an image";
     private static string GetImageMime = "image/*";
@@ -32,63 +81,122 @@ public class LWALocalMediaObject : MonoBehaviour
     /// Properties
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
-    //  TargetObjectBaseName - Basename of file, has a settable default value
+
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
+    //  BaseName - Basename of file, has a settable default value
     //
     //  Usage:
     //
-    //      basename = LWALocalMediaObject.TargetObjectBaseName;
+    //      basename = LWALocalMediaObject.BaseName;
     //
-    //      LWALocalMediaObject.TargetObjectBaseName = "new-base-name";
+    //      LWALocalMediaObject.BaseName = "new-base-name";
     //
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
-    private string targetObjectBaseNameDefault = "target-object";
 
-    private string targetObjectBaseName = targetObjectBaseNameDefault;
+    private string baseName = baseNameDefault;
 
-    public string TargetObjectBaseName
+    public string BaseName
     {
         get
         {
-            return targetObjectBaseName;
+            return baseName;
         }
         set
         {
-            targetObjectBaseName = value;
+            baseName = value;
         }
     }
 
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
-    private string targetObjectPath = null; // Full path to target object
+    //  Directory - Path to directory destination for media files
+    //
+    //  Usage:
+    //
+    //      directoryPath = LWALocalMediaObject.Directory;
+    //
+    //      LWALocalMediaObject.Directory = "/new/path/to/directory";
+    //
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
 
-    public string TargetObjectPath
+    private string directory = directoryDefault;
+
+    public string Directory
     {
         get
         {
-            return targetObjectPath;
+            return directory;
         }
         set
         {
-            targetObjectPath = value;
+            directory = value;
         }
     }
 
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
-    private string targetObjectExtension = null; // Filename extension of target object
+    //  Path - Full path to media file after success (READ ONLY)
+    //
+    //  Usage:
+    //
+    //      mediaPath = LWALocalMediaObject.Path;
+    //
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
 
-    public string TargetObjectExtension
+    private string path = null; // Full path to target object
+
+    public string Path
     {
         get
         {
-            return targetObjectExtension;
+            return path;
         }
-        set
-        {
-            targetObjectExtension = value;
-        }
+//  read only property
+//        set
+//        {
+//            path = value;
+//        }
     }
+
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
+    //  Extension - Media file name extension, indicates type (READ ONLY)
+    //
+    //  Usage:
+    //
+    //      extension = LWALocalMediaObject.Extension;
+    //
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
+
+    private string extension = null; // Filename extension of target object
+
+    public string Extension
+    {
+        get
+        {
+            return extension;
+        }
+//  read only property
+//        set
+//        {
+//            extension = value;
+//        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
+    //
+    //  Functional Methods
+    //
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
 
     /////////////////////////////////////////////////////////////////////////////
     // TakePicture()
@@ -109,6 +217,7 @@ public class LWALocalMediaObject : MonoBehaviour
             Debug.Log("Camera not ready");
         }
     }
+
     /////////////////////////////////////////////////////////////////////////////
     // RecordVideo()
     /////////////////////////////////////////////////////////////////////////////
@@ -127,6 +236,7 @@ public class LWALocalMediaObject : MonoBehaviour
             Debug.Log("Camera not ready");
         }
     }
+
     /////////////////////////////////////////////////////////////////////////////
     // GetImageFromGallery()
     /////////////////////////////////////////////////////////////////////////////
@@ -141,6 +251,7 @@ public class LWALocalMediaObject : MonoBehaviour
         Debug.Log("GetImageMime: (" + GetImageMime + ")");
         Debug.Log("maxSize: (" + maxSize + ")");
     }
+
     /////////////////////////////////////////////////////////////////////////////
     // GetVideoFromGallery()
     /////////////////////////////////////////////////////////////////////////////
@@ -154,9 +265,17 @@ public class LWALocalMediaObject : MonoBehaviour
         Debug.Log("GetVideoTitle: (" + GetVideoTitle + ")");
         Debug.Log("GetVideoMime: (" + GetVideoMime + ")");
     }
+
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
     // Utility methods
     /////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////
+
+    /////////////////////////////////////////////////////////////////////////////
+    //  Verify that the camera exists and is ready to use:
     private static bool IsCameraReady()
     {
         if (NativeCamera.DeviceHasCamera()) // Does it even have a camera?
@@ -181,8 +300,8 @@ public class LWALocalMediaObject : MonoBehaviour
         return true;
     }
     /////////////////////////////////////////////////////////////////////////////
-    private static void MoveToTargetObjectPath(string sourceObjectPath)
     // Once we have an object, move it to a known location
+    private static void MoveToTargetObjectPath(string sourceObjectPath)
     {
         if (sourceObjectPath == null)
         {
@@ -191,18 +310,17 @@ public class LWALocalMediaObject : MonoBehaviour
         else
         {
             Debug.Log("sourceObjectPath: (" + sourceObjectPath + ")");
-            string mediaExtension = System.IO.Path.GetExtension(sourceObjectPath);
-            string targetObjectPath = fm.MarksDirectory
-                                    + targetObjectBaseName
-                                    + mediaExtension;
-            Debug.Log("targetObjectPath: (" + targetObjectPath + ")");
-            FileUtil.ReplaceFile(sourceObjectPath, targetObjectPath);
+            extension = System.IO.Path.GetExtension(sourceObjectPath);
+            Debug.Log("targetObjectExtension: (" + extension + ")");
+            path = directory + baseName + extension;
+            Debug.Log("targetObjectPath: (" + path + ")");
+            FileUtil.ReplaceFile(sourceObjectPath, path);
         }
     }
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////////
 }
+
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 //  End: LWALocalMediaObjects.cs
