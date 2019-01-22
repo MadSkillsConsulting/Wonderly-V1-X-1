@@ -7,11 +7,13 @@
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 //  Class: LWALocalMediaObject
+/////////////////////////////////////////////////////////////////////////////
 //  Written By: Mad Skills Consulting LLC
+/////////////////////////////////////////////////////////////////////////////
 //  Date: 2018-12-18 - Dev Michael - First checkin
-//  Date: 2019-01-21 - Dev Michael - Added Class Properties
+//  Date: 2019-01-21 - Dev Michael - Added class properties
 //  Date: 2019-01-22 - Maia Monet - Added Co-Developer
-//  Date: 2019-01-22 - Dev Michael - Added Usage Comments
+//  Date: 2019-01-22 - Dev Michael - Added usage comments
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -66,6 +68,8 @@ using NativeGallery;
 
 public class LWALocalMediaObject : MonoBehaviour
 {
+    private static FilesManager fm;
+
     private string baseNameDefault = "target-object";
     private string directoryDefault = fm.MarksDirectory;
 
@@ -74,7 +78,6 @@ public class LWALocalMediaObject : MonoBehaviour
     private static string GetImageMime = "image/*";
     private static string GetVideoTitle = "Select a video";
     private static string GetVideoMime = "video/*";
-    private static FilesManager fm;
 
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
