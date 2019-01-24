@@ -10,11 +10,12 @@
 /////////////////////////////////////////////////////////////////////////////
 //  Written By: Mad Skills Consulting LLC
 /////////////////////////////////////////////////////////////////////////////
-//  Date: 2018-12-18 -  Dev Michael -   First checkin
-//  Date: 2019-01-21 -  Dev Michael -   Added class properties
-//  Date: 2019-01-22 -  Maia Monet -    Added Co-Developer
-//  Date: 2019-01-22 -  Dev Michael -   Added usage comments
-//  Date: 2019-01-24 -  Dev Michael -   Made internal properties static
+//  Date: 2018-12-18    - Dev Michael   - First checkin
+//  Date: 2019-01-21    - Dev Michael   - Added class properties
+//  Date: 2019-01-22    - Maia Monet    - Added Co-Developer
+//  Date: 2019-01-22    - Dev Michael   - Added usage comments
+//  Date: 2019-01-24    - Dev Michael   - Made internal properties static
+//  Date: 2019-01-24    - Dev Michael   - Removed default directory var  
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -60,25 +61,36 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sample;
-//  using NativeCamera;
-//  using NativeGallery;
 
+/////////////////////////////////////////////////////////////////////////////
+//  Uses the following classes:
+//
+//      Unity Plugins:
+//          NativeCamera
+//          NativeGallery
+//
+//      Other Classes:
+//
+//          FilesManager
+//          FileUtil
+//          Debug
+//          System.IO.Path
+//
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
 public class LWALocalMediaObject : MonoBehaviour
 {
-    private static FilesManager fm;
-    private static string directoryDefault = fm.MarksDirectory;
 
-    private static string baseNameDefault = "target-object";
+    private static FilesManager fm; // directory default
+    private const string BaseNameDefault = "target-object";
 
-    private static int maxSize = 512;       // Maximum image pixels on iOS
-    private static string GetImageTitle = "Select an image";
-    private static string GetImageMime = "image/*";
-    private static string GetVideoTitle = "Select a video";
-    private static string GetVideoMime = "video/*";
+    private const int MaxSize = 512;       // Maximum image pixels on iOS
+    private const string GetImageTitle = "Select an image";
+    private const string GetImageMime = "image/*";
+    private const string GetVideoTitle = "Select a video";
+    private const string GetVideoMime = "video/*";
 
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
@@ -99,9 +111,9 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
 
-    private static string baseName = baseNameDefault;
+    private static string baseName = BaseNameDefault;
 
-    public string BaseName
+    public static string BaseName
     {
         get
         {
@@ -126,12 +138,16 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
 
-    private static string directory = directoryDefault;
+    private static string directory = null;
 
-    public string Directory
+    public static string Directory
     {
         get
         {
+            if (null == directory)
+            {
+                directory = fm.MarksDirectory;
+            }
             return directory;
         }
         set
@@ -153,7 +169,7 @@ public class LWALocalMediaObject : MonoBehaviour
 
     private static string path = null; // Full path to target object
 
-    public string Path
+    public static string Path
     {
         get
         {
@@ -179,7 +195,7 @@ public class LWALocalMediaObject : MonoBehaviour
 
     private static string extension = null; // Filename extension of target object
 
-    public string Extension
+    public static string Extension
     {
         get
         {
@@ -205,14 +221,14 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     // TakePicture()
     /////////////////////////////////////////////////////////////////////////////
-    public void TakePicture()
+    public static void TakePicture()
     {
         if (IsCameraReady())
         {
-            NativeCamera.Permission permission = NativeCamera.TakePicture((ImagePath) =>
+            NativeCamera.Permission permission = NativeCamera.TakePicture((imagePath) =>
             {
-                MoveToTargetObjectPath(ImagePath);
-            }, maxSize);
+                MoveToTargetObjectPath(imagePath);
+            }, MaxSize);
 
             Debug.Log("Permission result: (" + permission + ")");
         }
@@ -225,13 +241,13 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     // RecordVideo()
     /////////////////////////////////////////////////////////////////////////////
-    public void RecordVideo()
+    public static void RecordVideo()
     {
         if (IsCameraReady())
         {
-            NativeCamera.Permission permission = NativeCamera.RecordVideo((VideoPath) =>
+            NativeCamera.Permission permission = NativeCamera.RecordVideo((videoPath) =>
             {
-                MoveToTargetObjectPath(VideoPath);
+                MoveToTargetObjectPath(videoPath);
             });
             Debug.Log("Permission result: (" + permission + ")");
         }
@@ -244,26 +260,26 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     // GetImageFromGallery()
     /////////////////////////////////////////////////////////////////////////////
-    public void GetImageFromGallery()
+    public static void GetImageFromGallery()
     {
-        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((ImagePath) =>
+        NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((imagePath) =>
         {
-            MoveToTargetObjectPath(ImagePath);
-        }, GetImageTitle, GetImageMime, maxSize);
+            MoveToTargetObjectPath(imagePath);
+        }, GetImageTitle, GetImageMime, MaxSize);
         Debug.Log("Permission result: (" + permission + ")");
         Debug.Log("GetImageTitle: (" + GetImageTitle + ")");
         Debug.Log("GetImageMime: (" + GetImageMime + ")");
-        Debug.Log("maxSize: (" + maxSize + ")");
+        Debug.Log("maxSize: (" + MaxSize + ")");
     }
 
     /////////////////////////////////////////////////////////////////////////////
     // GetVideoFromGallery()
     /////////////////////////////////////////////////////////////////////////////
-    public void GetVideoFromGallery()
+    public static void GetVideoFromGallery()
     {
-        NativeGallery.Permission permission = NativeGallery.GetVideoFromGallery((VideoPath) =>
+        NativeGallery.Permission permission = NativeGallery.GetVideoFromGallery((videoPath) =>
         {
-            MoveToTargetObjectPath(VideoPath);
+            MoveToTargetObjectPath(videoPath);
         }, GetVideoTitle, GetVideoMime);
         Debug.Log("Permission result: (" + permission + ")");
         Debug.Log("GetVideoTitle: (" + GetVideoTitle + ")");
@@ -315,10 +331,10 @@ public class LWALocalMediaObject : MonoBehaviour
         {
             Debug.Log("sourceObjectPath: (" + sourceObjectPath + ")");
             extension = System.IO.Path.GetExtension(sourceObjectPath);
-            Debug.Log("targetObjectExtension: (" + extension + ")");
-            path = directory + baseName + extension;
-            Debug.Log("targetObjectPath: (" + path + ")");
-            FileUtil.ReplaceFile(sourceObjectPath, path);
+            Debug.Log("targetObjectExtension: (" + Extension + ")");
+            path = Directory + BaseName + Extension;
+            Debug.Log("targetObjectPath: (" + Path + ")");
+            FileUtil.ReplaceFile(sourceObjectPath, Path);
         }
     }
     /////////////////////////////////////////////////////////////////////////////
