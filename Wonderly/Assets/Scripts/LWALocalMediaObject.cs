@@ -10,10 +10,11 @@
 /////////////////////////////////////////////////////////////////////////////
 //  Written By: Mad Skills Consulting LLC
 /////////////////////////////////////////////////////////////////////////////
-//  Date: 2018-12-18 - Dev Michael - First checkin
-//  Date: 2019-01-21 - Dev Michael - Added class properties
-//  Date: 2019-01-22 - Maia Monet - Added Co-Developer
-//  Date: 2019-01-22 - Dev Michael - Added usage comments
+//  Date: 2018-12-18 -  Dev Michael -   First checkin
+//  Date: 2019-01-21 -  Dev Michael -   Added class properties
+//  Date: 2019-01-22 -  Maia Monet -    Added Co-Developer
+//  Date: 2019-01-22 -  Dev Michael -   Added usage comments
+//  Date: 2019-01-24 -  Dev Michael -   Made internal properties static
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -59,8 +60,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sample;
-using NativeCamera;
-using NativeGallery;
+//  using NativeCamera;
+//  using NativeGallery;
 
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
@@ -69,9 +70,9 @@ using NativeGallery;
 public class LWALocalMediaObject : MonoBehaviour
 {
     private static FilesManager fm;
+    private static string directoryDefault = fm.MarksDirectory;
 
-    private string baseNameDefault = "target-object";
-    private string directoryDefault = fm.MarksDirectory;
+    private static string baseNameDefault = "target-object";
 
     private static int maxSize = 512;       // Maximum image pixels on iOS
     private static string GetImageTitle = "Select an image";
@@ -98,7 +99,7 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
 
-    private string baseName = baseNameDefault;
+    private static string baseName = baseNameDefault;
 
     public string BaseName
     {
@@ -125,7 +126,7 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
 
-    private string directory = directoryDefault;
+    private static string directory = directoryDefault;
 
     public string Directory
     {
@@ -150,7 +151,7 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
 
-    private string path = null; // Full path to target object
+    private static string path = null; // Full path to target object
 
     public string Path
     {
@@ -176,7 +177,7 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
 
-    private string extension = null; // Filename extension of target object
+    private static string extension = null; // Filename extension of target object
 
     public string Extension
     {
