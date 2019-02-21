@@ -16,7 +16,7 @@
 //  Date: 2019-01-22    - Dev Michael   - Added usage comments
 //  Date: 2019-01-24    - Dev Michael   - Made internal properties static
 //  Date: 2019-01-24    - Dev Michael   - Removed default directory var  
-//  Date: 2019-02-21    - Dev Michael   - Added method comments
+//  Date: 2019-02-21    - Dev Michael   - Made primary method "public void"
 /////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -230,7 +230,7 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     // TakePicture()
     /////////////////////////////////////////////////////////////////////////////
-    public static void TakePicture()
+    public void TakePicture()
     {
         if (IsCameraReady())
         {
@@ -250,7 +250,7 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     // RecordVideo()
     /////////////////////////////////////////////////////////////////////////////
-    public static void RecordVideo()
+    public void RecordVideo()
     {
         if (IsCameraReady())
         {
@@ -269,7 +269,7 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     // GetImageFromGallery()
     /////////////////////////////////////////////////////////////////////////////
-    public static void GetImageFromGallery()
+    public void GetImageFromGallery()
     {
         NativeGallery.Permission permission = NativeGallery.GetImageFromGallery((imagePath) =>
         {
@@ -284,7 +284,7 @@ public class LWALocalMediaObject : MonoBehaviour
     /////////////////////////////////////////////////////////////////////////////
     // GetVideoFromGallery()
     /////////////////////////////////////////////////////////////////////////////
-    public static void GetVideoFromGallery()
+    public void GetVideoFromGallery()
     {
         NativeGallery.Permission permission = NativeGallery.GetVideoFromGallery((videoPath) =>
         {
